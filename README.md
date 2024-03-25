@@ -65,21 +65,45 @@ When it comes to micromobility, you essentially have two options: an escooter or
 - Casework for electronics & LiPo
 - Threadlocking mechancial components
 - RTOS scheduler
+- LCD stats display 
   
-Overall, we expect to have the controls system polished with peripherals being completed depending on time restrictions. 
+Overall, we expect to have the basic controls system polished with peripherals being completed depending on time restrictions. 
 
 ### 8. Methodology
 
-What is your approach to the problem?
+Our approach is to first do as much research as we can on BLDC motor control and the VESC Architecure. Then, we will draw out a systems diagram mapping out everything we need and how they will communicate. After that, we will designate pins on the ATMega328PB. From this point on, we can define the pins in the software so we can extract away our progress. We then plan on building in parallel, making it easy to integrate our segments of the project. The major focus will be on the acceleration and deceleration pads, but after we finish that we can being working on less critical peripherals (auto-headlights, 
 
 ### 9. Components
 
 What major components do you need and why?
 
+#### Already have: 
+- BLDC motors for driving the electric skateboard
+- LiPo to provide power to the motors and electronics system
+- Belt drive system to connect the motors to the whells of the skateboard
+- Dual VESC for controlling the BLDC motors 
+
+#### Need to purchase: 
+- Force sensors to enact a layer of safety. We want the speed to increase ONLY if both the force sensors and IR emitters are giving non 0 values.
+- Powerful Dimmable Headlights (PWM?). We want headlights that automatically turn on during nighttime to improve rider visibility.  
+- LCD to display critical information such as speed, battery percentage, and internal temperature
+- High quality ultrasonic sensor to robustly determine the distance of nearby objects 
+  
 ### 10. Evaluation
 
 What is your metric for evaluating how well your product/solution solves the problem? Think critically on this section. Having a boolean metric such as “it works” is not very useful. This is akin to making a speaker and if it emits sound, albeit however terrible and ear wrenching, declare this a success.
 It is recommended that your project be something that you can take pride in. Oftentimes in interviews, you will be asked to talk about projects you have worked on.
+
+The major evaluation metric for this project will be the throttle error rate. The throttle error rate is the percentage of times out a fixed X trials that the skateboard incorrectly accelerates or decelerates during the following conditions: displacement & force, displacement & no force, no displacement & force, no displacement & no force. Each of these 4 metrics will have their own error rates, as well as a seperate one for accleration and deceleration. Therefore, we will have a total of 8 error rates: 
+- E_adf = error rate during acceleration testing with both displacement & force present
+- E_ad = error rate during acceleration testing with only displacement present
+- E_af = error rate during acceleration testing with only force present
+- E_ddf = error rate during decceleration testing with both displacement & force present
+- E_dd = error rate during decceleration testing with only displacement present
+- E_df = error rate during decceleration testing with only force present 
+
+The goal is to have each of these error rates below 5%. 
+
 
 ### 11. Timeline
 
@@ -87,11 +111,11 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 | **Week**            | **Task** | **Assigned To** |
 |---------------------|----------|-----------------|
-| **Week 1: 3/24 - 3/31** | 1. Research VESC Architecture<br>2. Design code architecture<br>3. Communicate a simple message between AtMega328PB and VESC<br>4. Read IR emitter and sensor docs<br>5. Design a simple circuit to pulse IR at the proper frequency according to docs so emitter receives voltage<br>6. Plot current as a function of distance | 1. Ahmed<br>2. Ayman<br>3. Both |
-| **Week 2: 4/1 - 4/7**   | - | - |
-| **Week 3: 4/8 - 4/14**  | - | - |
-| **Week 4: 4/15 - 4/21** | - | - |
-| **Week 5: 4/22 - 4/26** | - | - |
+| **Week 1: 3/24 - 3/31** | 1. Research VESC Architecture <br>2. Communicate a simple message between AtMega328PB and VESC<br>3. Read IR emitter and sensor docs<br>4. Design a simple circuit to pulse IR at the proper frequency according to docs so emitter receives voltage<br>5. Plot current as a function of distance<br>6. Design code architecture| (1-2) Ahmed<br> (3-4)Ayman<br>(5-6) Both |
+| **Week 2: 4/1 - 4/7**   | 1. Map emitter to speed values <br> 2. Convert emitter to I2C message <br> 3. Configure Force Sensors <br> 4. Write Software for mandatin force & displaceent | (1-2) Ahmed <br> (3-4) Ayman |
+| **Week 3: 4/8 - 4/14**  | 1. Finish IR to VESC messaging <br> 2. Configure Ultrasonic Sensor Software for crash detection  | Ahmed & Ayman |
+| **Week 4: 4/15 - 4/21** | 1. Finish Ultrasonic emergency braking <br> 2. Configure ADC for automatic headlights <br>  3. Implement RTOS scheduler  | (1 & 3) Ahmed <br> (2) Ayman |
+| **Week 5: 4/22 - 4/26** | 1. LCD Graphics <br> 2. Finalzie casework  | (1) Ahmed & Ayman <br> (2) Ahmed & Ayman |
 
 ### 12. Proposal Presentation
 
