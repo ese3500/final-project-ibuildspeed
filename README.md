@@ -38,6 +38,7 @@ When it comes to micromobility, you essentially have two options: an escooter or
 - ADC for Force Sensor
 - Timer input capture for Ultrasonic
 - Interrupts for crash detection
+- Graphics code for displaying data 
   
 ### 5. Hardware Requirements Specification (HRS)
 - Dual BLDC motor setup
@@ -50,6 +51,7 @@ When it comes to micromobility, you essentially have two options: an escooter or
 - Battery protection casework
 - Electronic protection caseowork
 - Buck converter
+- LCD screen 
 
 ### 6. MVP Demo
 
@@ -115,11 +117,11 @@ This section is to help guide your progress over the next few weeks. Feel free t
 | **Week 2: 4/1 - 4/7**   | 1. Map emitter to speed values <br> 2. Convert emitter to I2C message <br> 3. Configure Force Sensors <br> 4. Write Software for mandatin force & displaceent | (1-2) Ahmed <br> (3-4) Ayman |
 | **Week 3: 4/8 - 4/14**  | 1. Finish IR to VESC messaging <br> 2. Configure Ultrasonic Sensor Software for crash detection  | Ahmed & Ayman |
 | **Week 4: 4/15 - 4/21** | 1. Finish Ultrasonic emergency braking <br> 2. Configure ADC for automatic headlights <br>  3. Implement RTOS scheduler  | (1 & 3) Ahmed <br> (2) Ayman |
-| **Week 5: 4/22 - 4/26** | 1. LCD Graphics <br> 2. Finalzie casework  | (1) Ahmed & Ayman <br> (2) Ahmed & Ayman |
+| **Week 5: 4/22 - 4/26** | 1. LCD Graphics <br> 2. Finalzie casework  <3> 3. Perfboard migrations| (1) Ahmed & Ayman <br> (2) Ahmed & Ayman (3) Ahmed|
 
 ### 12. Proposal Presentation
 
-Add your slides to the Final Project Proposal slide deck in the Google Drive.
+Add your slides to the Final Project Proposal slide deck in the Google Drive.5
 
 ## Final Project Report
 
