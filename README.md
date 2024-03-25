@@ -85,13 +85,13 @@ It is recommended that your project be something that you can take pride in. Oft
 
 This section is to help guide your progress over the next few weeks. Feel free to adjust and edit the table below to something that would be useful to you. Really think about what you want to accomplish by the first milestone.
 
-| **Week**            | **Task** | **Assigned To**    |
-|----------           |--------- |------------------- |
-| Week 1: 3/24 - 3/31 |  (1) a. Research VESC Architecture, b. Design code architecture c. Communicate a simple message between AtMega328PB and VESC, (2) a. Read IR emitter and sensor docs, b. simple circuit to pulse IR at proper frequency according to docs st emitter recieves voltage (3) Plot current as a function of distance      |      1- Ahmed, 2- Ayman, 3- both              |
-| Week 2: 4/1 - 4/7   |   (1)        |                    |
-| Week 3: 4/8 - 4/14  |          |                    |
-| Week 4: 4/15 - 4/21 |          |                    |
-| Week 5: 4/22 - 4/26 |          |                    |
+| **Week**            | **Task** | **Assigned To** |
+|---------------------|----------|-----------------|
+| **Week 1: 3/24 - 3/31** | 1. Research VESC Architecture<br>2. Design code architecture<br>3. Communicate a simple message between AtMega328PB and VESC<br>4. Read IR emitter and sensor docs<br>5. Design a simple circuit to pulse IR at the proper frequency according to docs so emitter receives voltage<br>6. Plot current as a function of distance | 1. Ahmed<br>2. Ayman<br>3. Both |
+| **Week 2: 4/1 - 4/7**   | - | - |
+| **Week 3: 4/8 - 4/14**  | - | - |
+| **Week 4: 4/15 - 4/21** | - | - |
+| **Week 5: 4/22 - 4/26** | - | - |
 
 ### 12. Proposal Presentation
 
