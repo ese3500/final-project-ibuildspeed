@@ -50,15 +50,23 @@ When it comes to micromobility, you essentially have two options: an escooter or
 - Battery protection casework
 - Electronic protection caseowork
 - Buck converter
-- 
+
 ### 6. MVP Demo
 
-* IR emittor and detector circuit complete
-* Speed communication between ATMega328PB and VESC
+- IR emittor and detector circuit complete
+- Force sensors configured 
+- Speed communication between ATMega328PB and VESC
+- Crash detection system completed
+- Battery critical warning sytem completed
+- Automatic Headlights completted
   
 ### 7. Final Demo
-
-What do you expect to achieve by the final demonstration or after milestone 1?
+- Casework for pedals
+- Casework for electronics & LiPo
+- Threadlocking mechancial components
+- RTOS scheduler
+  
+Overall, we expect to have the controls system polished with peripherals being completed depending on time restrictions. 
 
 ### 8. Methodology
 
@@ -79,8 +87,8 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 | **Week**            | **Task** | **Assigned To**    |
 |----------           |--------- |------------------- |
-| Week 1: 3/24 - 3/31 |          |                    |
-| Week 2: 4/1 - 4/7   |          |                    |
+| Week 1: 3/24 - 3/31 |  (1) a. Research VESC Architecture, b. Design code architecture c. Communicate a simple message between AtMega328PB and VESC, (2) a. Read IR emitter and sensor docs, b. simple circuit to pulse IR at proper frequency according to docs st emitter recieves voltage (3) Plot current as a function of distance      |      1- Ahmed, 2- Ayman, 3- both              |
+| Week 2: 4/1 - 4/7   |   (1)        |                    |
 | Week 3: 4/8 - 4/14  |          |                    |
 | Week 4: 4/15 - 4/21 |          |                    |
 | Week 5: 4/22 - 4/26 |          |                    |
