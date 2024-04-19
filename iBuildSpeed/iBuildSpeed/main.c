@@ -1,15 +1,14 @@
 /*
- *
  * GccApplication1.c
  *
  * Created: 2/23/2024 2:21:11 PM
- * Author : atewfik1, abdellah, aakatz
+ * Author : atewfik1
  */
 
 #define F_CPU          16000000UL
 #define BAUD_RATE      9600
 #define BAUD_PRESCALER (((F_CPU / (BAUD_RATE * 16UL))) - 1)
-#define THROTTLE       PORTC1
+
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdio.h>
@@ -17,6 +16,7 @@
 #include <util/delay.h>
 
 #include "uart.h"
+
 char String[25];
 
 // keeps track of distance
@@ -29,38 +29,17 @@ volatile int start = 0;
 volatile int end = 0;
 volatile int count = 0;
 
-int speed = 0;
+int speed = 1;
 
 int currADC = 0;
 double duty = 0;
-void
-Initialize_throttle() {
-    cli();
-    // input pins
-    DDRC &= ~(1 << DDRC1);
-    DDRC &= ~(1 << DDRC2);
-    // 0V (min) to 5V (max) acc
-    // 0 --> 1023
-    sei();
-}
+
 void
 Initialize_PWM() {
     cli();
 
     // sets the ouptut pin
     DDRD |= (1 << DDD5);
-
-    // sets the input pin
-    DDRD &= ~(1 << DDD7);
-
-    // enables pull up resistor
-    PORTD |= (1 << PORTD7);
-
-    // enable pin change interrupt
-    PCICR |= (1 << PCIE2);
-
-    // enable trigger for PCINT21
-    PCMSK2 |= (1 << PCINT23);
 
     // prescale clock by 256
     TCCR0B &= ~(1 << CS00);
@@ -83,49 +62,14 @@ Initialize_PWM() {
 
     sei();
 }
-
 void
-Initialize_ultrasonic() {
+Initialize_throttle() {
     cli();
-
-    // sets the ouptut pin
-    DDRB |= (1 << DDB1);
-    DDRB |= (1 << DDB2);
-    DDRB |= (1 << DDB3);
-
-    // initialize PB1 as LOW
-    PORTB &= ~(1 << PORTB1);
-    PORTB &= ~(1 << PORTB2);
-    PORTB &= ~(1 << PORTB3);
-
-    // sets the input pin - echo
-    DDRB &= ~(1 << DDB0);
-
-    // prescale clock by 256
-    TCCR1B &= ~(1 << CS10);
-    TCCR1B &= ~(1 << CS11);
-    TCCR1B |= (1 << CS12);
-
-    // sets the clock to fast PWM
-    TCCR1A |= (1 << WGM10);
-    TCCR1A |= (1 << WGM11);
-    TCCR1B |= (1 << WGM12);
-    TCCR1B |= (1 << WGM13);
-
-    // enables compare match
-    TCCR1A |= (1 << COM1A0);
-    TCCR1A &= ~(1 << COM1A1);
-
-    TCCR1A |= (1 << COM1B1);
-
-    // clears input capture flag
-    TIFR1 |= (1 << ICF1);
-
-    // enables input capture
-    TIMSK1 |= (1 << ICIE1);
-
-    OCR1A = 200;
-
+    // input pins
+    DDRC &= ~(1 << DDRC1);
+    DDRC &= ~(1 << DDRC2);
+    // 0V (min) to 5V (max) acc
+    // 0 --> 1023
     sei();
 }
 
@@ -140,7 +84,66 @@ readADC(uint8_t ADCchannel) {
         ;
     return ADC;
 }
+void
+Initialize_sensor() {
+    cli();
 
+    // sets the ouptut pin
+    DDRB |= (1 << DDB1);
+
+    // initialize PB1 as LOW
+    PORTB &= ~(1 << PORTB1);
+
+    // sets output to  lights
+    DDRB |= (1 << DDB2);
+    PORTB &= ~(1 << PORTB2);
+
+    DDRB |= (1 << DDRB3);
+    DDRD |= (1 << DDD3);
+    PORTD &= ~(1 << PORTD7);
+
+    // sets the input pin - echo
+    DDRB &= ~(1 << DDB0);
+
+    // prescale clock by 256
+    TCCR1B &= ~(1 << CS10);
+    TCCR1B &= ~(1 << CS11);
+    TCCR1B |= (1 << CS12);
+
+    // sets the clock to normal mode
+    TCCR1A &= ~(1 << WGM10);
+    TCCR1A &= ~(1 << WGM11);
+    TCCR1B &= ~(1 << WGM12);
+    TCCR1B &= ~(1 << WGM13);
+
+    // rising edge detection
+    TCCR1B |= (1 << ICES1);
+
+    // clears input capture flag
+    TIFR1 |= (1 << ICF1);
+
+    // enables input capture
+    TIMSK1 |= (1 << ICIE1);
+
+    // sets timer2 to fast pwm
+    TCCR2A |= (1 << WGM20);
+    TCCR2A |= (1 << WGM21);
+    TCCR2B &= ~(1 << WGM22);
+
+    // prescale timer2 by 256
+    TCCR2B &= ~(1 << CS20);
+    TCCR2B |= (1 << CS21);
+    TCCR2B |= (1 << CS22);
+
+    TCCR2A &= ~(1 << COM2A1);
+    TCCR2A |= (1 << COM2A0);
+
+    TCCR2A |= (1 << COM2B1);
+
+    OCR2A = 200;
+
+    sei();
+}
 void
 Initialize_ADC() {
     cli();
@@ -183,56 +186,49 @@ ISR(PCINT2_vect) {
 }
 
 void
-dutyCycle(void) {
-
-    currADC = ADC;
-
-    if (currADC < 129 && currADC > 30) {
-        duty = 5.0;
-    } else if (currADC < 228 && currADC > 129) {
-        duty = 10.0;
-    } else if (currADC < 327 && currADC > 228) {
-        duty = 15.0;
-    } else if (currADC < 426 && currADC > 327) {
-        duty = 20.0;
-    } else if (currADC < 525 && currADC > 426) {
-        duty = 25.0;
-    } else if (currADC < 624 && currADC > 525) {
-        duty = 30.0;
-    } else if (currADC < 723 && currADC > 624) {
-        duty = 35.0;
-    } else if (currADC < 822 && currADC > 723) {
-        duty = 40.0;
-    } else if (currADC < 921 && currADC > 822) {
-        duty = 45.0;
-    } else if (currADC < 921) {
-        duty = 50.0;
-    }
-
-    ADCSRA |= (1 << ADSC);
-}
-
-void
 lights() {
     uint16_t currADC = readADC(0);
     sprintf(String, "light ADC: %d \n", currADC);
     UART_putstring(String);
     if (currADC < 300 && currADC > 200) {   // low brightness
-        OCR1B = OCR1A * 1.0 / 3.0;
-
+        OCR2B = OCR2A * 1.0 / 3.0;
     } else if (currADC < 200 && currADC > 100) {   // medium brightness
-        OCR1B = OCR1A * 2.0 / 3.0;
-
+        OCR2B = OCR2A * 2.0 / 3.0;
     } else if (currADC < 100) {   // high brightness
-        OCR1B = OCR1A;
-
+        OCR2B = OCR2A;
     } else {   // off
-        OCR1B = 0;
+        OCR2B = 0;
     }
 }
 
+ISR(TIMER1_CAPT_vect) {
+
+    if (TCCR1B & (1 << ICES1)) {   // if rising edge is detected
+        TCNT1 = 0;
+        start = TCNT1;
+    } else {
+        end = TCNT1;
+        if (end >= start) {
+            duration = end - start;
+        } else {
+            duration = end - start + 65535;   // 2^16 = 65536 = no. of ticks before overflow
+        }
+    }
+
+    TIFR1 |= (1 << ICF1);     // Clear input capture flag
+    TCCR1B ^= (1 << ICES1);   // Toggle trigger
+
+    // if(TCCR1B & (1<<ICES1)) {
+    // TCNT1 = 0;
+    // TCCR1B &= ~(1<<ICES1); //switches to falling edge detection
+    // } else {
+    // count = ICR1;
+    // TCCR1B |= (1<<ICES1); //switches to rising edge
+    // }
+}
+
 void
-emergencyBrake() {
+brake() {
     duty = 19;
     OCR0A = duty;
 }
@@ -263,11 +259,7 @@ neutral() {
 
 void
 drive() {
-
     distance = (duration * 34000 * 256) / (16000000 * 2);
-    // 	sprintf(String, "distance: %d \n", distance);
-    // 	UART_putstring(String);
-
     // read the throttle value
     uint16_t acc_value = readADC(1);
     sprintf(String, "VROOOMM: %d \n", acc_value);
@@ -283,7 +275,7 @@ drive() {
 
     if (speed == 1) {                          // speed is low
         if (distance < 30 && distance > 0) {   // speed is low and distance to object is 30cm
-            emergencyBrake();
+            brake();
         } else {
             lowSpeed();
         }
@@ -291,7 +283,7 @@ drive() {
 
     if (speed == 2) {   // speed is medium
         if (distance < 40 && distance > 0) {
-            emergencyBrake();
+            brake();
         } else {
             medSpeed();
         }
@@ -299,29 +291,33 @@ drive() {
 
     if (speed == 3) {   // speed is high
         if (distance < 55 && distance > 0) {
-            emergencyBrake();
+            brake();
         } else {
             highSpeed();
         }
     }
 }
+
 int
 main(void) {
+
     UART_init(BAUD_PRESCALER);
-    Initialize_ultrasonic();
+    Initialize_sensor();
     Initialize_throttle();
     Initialize_PWM();
     Initialize_ADC();
-    sprintf(String, "hi");
-    UART_putstring(String);
 
     while (1) {
         lights();
         drive();
         _delay_ms(60);
-        PORTB |= (1 << PORTB3);
+        PORTB |= (1 << PORTB1);
         _delay_us(10);
-        PORTB &= ~(1 << PORTB3);
+        PORTB &= ~(1 << PORTB1);
+        sprintf(String, "distance: %d \n", distance);
+        UART_putstring(String);
+        sprintf(String, "ADC: %d \n", ADC);
+        UART_putstring(String);
 
         _delay_ms(100);
     }
