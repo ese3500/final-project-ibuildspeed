@@ -41,7 +41,7 @@ void Initialize_PWM() {
 		//sets the ouptut pin
 		DDRD |= (1<<DDD5);
 		
-		//prescale clock by 256
+		//prescale clock by 1024
 		TCCR0B |= (1<<CS00);
 		TCCR0B &= ~(1<<CS01);
 		TCCR0B |= (1<<CS02);
