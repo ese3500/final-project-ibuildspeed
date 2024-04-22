@@ -41,8 +41,8 @@ Initialize_PWM() {
     // sets the ouptut pin
     DDRD |= (1 << DDD5);
 
-    // prescale clock by 256
-    TCCR0B &= ~(1 << CS00);
+    // prescale clock by 1024
+    TCCR0B |= (1 << CS00);
     TCCR0B &= ~(1 << CS01);
     TCCR0B |= (1 << CS02);
 
@@ -54,11 +54,12 @@ Initialize_PWM() {
     // clears input capture flag
     TIFR1 |= (1 << ICF1);
 
-    // enables compare match
+    // 	enables compare match
     TCCR0A &= ~(1 << COM0A1);
     TCCR0A |= (1 << COM0A0);
 
     TCCR0A |= (1 << COM0B1);
+    OCR0A = 255;
 
     sei();
 }
@@ -68,7 +69,7 @@ Initialize_throttle() {
     // input pins
     DDRC &= ~(1 << DDRC1);
     DDRC &= ~(1 << DDRC2);
-    // 0V (min) to 5V (max) acc
+    // 0V (min) to 5V (max)
     // 0 --> 1023
     sei();
 }
@@ -167,7 +168,6 @@ Initialize_ADC() {
 
     // enable ADC
     ADCSRA |= (1 << ADEN);
-
     sei();
 }
 
@@ -229,32 +229,27 @@ ISR(TIMER1_CAPT_vect) {
 
 void
 brake() {
-    duty = 19;
-    OCR0A = duty;
+    OCR0B = OCR0A * 6.1 / 100.0;
 }
 
 void
 lowSpeed() {
-    duty = 11;
-    OCR0A = duty;
+    OCR0B = OCR0A * 10.1 / 100.0;
 }
 
 void
 medSpeed() {
-    duty = 10;
-    OCR0A = duty;
+    OCR0B = OCR0A * 11.1 / 100.0;
 }
 
 void
 highSpeed() {
-    duty = 9;
-    OCR0A = duty;
+    OCR0B = OCR0A * 12.1 / 100.0;
 }
 
 void
 neutral() {
-    duty = 12;
-    OCR0A = duty;
+    OCR0B = OCR0A * 9.1 / 100.0;
 }
 
 void
