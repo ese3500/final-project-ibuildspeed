@@ -35,6 +35,12 @@ double duty = 0;
 void
 drive() {
     distance = get_distance();
+	
+	if (distance < 20) {
+		e_brake();
+	} else {
+//     sprintf(String, "distance: %d \n", distance);
+//     UART_putstring(String);
 
     // read the throttle value
     uint16_t acc_value = readADC(1);
@@ -83,6 +89,7 @@ drive() {
     //         highSpeed();
     //     }
     // }
+	}
 }
 
 // 9.1 -> neutral
