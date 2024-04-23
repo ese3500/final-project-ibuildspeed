@@ -11,6 +11,7 @@
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
+#include <math.h>   // Include the math library for the exp() function
 #include <stdio.h>
 #include <stdlib.h>
 #include <util/delay.h>
@@ -29,7 +30,7 @@ volatile int start = 0;
 volatile int end = 0;
 volatile int count = 0;
 
-int speed = 1;
+int speed = 0;   // neutral
 
 int currADC = 0;
 double duty = 0;
@@ -81,10 +82,11 @@ readADC(uint8_t ADCchannel) {
     // single conversion mode
     ADCSRA |= (1 << ADSC);
     // wait until ADC conversion is complete
-    while (ADCSRA & (1 << ADSC))
-        ;
+    while (ADCSRA & (1 << ADSC)) {
+    }
     return ADC;
 }
+
 void
 Initialize_sensor() {
     cli();
@@ -252,6 +254,36 @@ neutral() {
     OCR0B = OCR0A * 9.1 / 100.0;
 }
 
+double
+set_brake(uint16_t brake_value) {
+    // Constants for the formula
+    const double L = 6.1;     // Lower asymptote
+    const double U = 8.9;     // Upper asymptote
+    const double k = 0.008;   // Decay rate
+    const double x0 = 512;    // Midpoint
+
+    // Logistic decay formula
+    double result = L + (U - L) / (1 + exp(k * (brake_value - x0)));
+
+    return (OCR0A * result / 100.0);
+}
+
+double
+set_throttle(uint16_t acc_value) {
+    // Define start and end points of input and output ranges
+    const double start_x = 0;
+    const double end_x = 1023;
+    const double start_y = 9.1;
+    const double end_y = 12.1;
+
+    // Calculate slope (change in y / change in x)
+    const double slope = (end_y - start_y) / (end_x - start_x);
+
+    // Calculate and return the output value using the linear equation
+    double result = start_y + slope * (acc_value - start_x);
+
+    return (OCR0A * result / 100.0);
+}
 void
 drive() {
     distance = (duration * 34000 * 256) / (16000000 * 2);
@@ -263,34 +295,45 @@ drive() {
     uint16_t brake_value = readADC(2);
     sprintf(String, "STOPPP: %d \n", brake_value);
     UART_putstring(String);
-    if (speed == 0) {
-        neutral();
-    }
 
-    if (speed == 1) {                          // speed is low
-        if (distance < 30 && distance > 0) {   // speed is low and distance to object is 30cm
-            brake();
-        } else {
-            lowSpeed();
-        }
+    if (brake_value > 0) {
+        // both are being pressed --> we want to brake
+        OCR0B = set_brake(brake_value);
+    } else if (acc_value > 0) {
+        OCR0B = set_throttle(acc_value);
     }
+    // if (speed == 0) {
+    //     neutral();
+    // }
 
-    if (speed == 2) {   // speed is medium
-        if (distance < 40 && distance > 0) {
-            brake();
-        } else {
-            medSpeed();
-        }
-    }
+    // if (speed == 1) {                          // speed is low
+    //     if (distance < 30 && distance > 0) {   // speed is low and distance to object is 30cm
+    //         brake();
+    //     } else {
+    //         lowSpeed();
+    //     }
+    // }
 
-    if (speed == 3) {   // speed is high
-        if (distance < 55 && distance > 0) {
-            brake();
-        } else {
-            highSpeed();
-        }
-    }
+    // if (speed == 2) {   // speed is medium
+    //     if (distance < 40 && distance > 0) {
+    //         brake();
+    //     } else {
+    //         medSpeed();
+    //     }
+    // }
+
+    // if (speed == 3) {   // speed is high
+    //     if (distance < 55 && distance > 0) {
+    //         brake();
+    //     } else {
+    //         highSpeed();
+    //     }
+    // }
 }
+
+// 9.1 -> neutral
+// 6.1 -> min
+// 12.1 -> max
 
 int
 main(void) {
@@ -300,8 +343,8 @@ main(void) {
     Initialize_throttle();
     Initialize_PWM();
     Initialize_ADC();
-	neutral();
-	_delay_ms(10000);
+    neutral();
+    _delay_ms(10000);
     while (1) {
         lights();
         drive();
@@ -310,8 +353,6 @@ main(void) {
         _delay_us(10);
         PORTB &= ~(1 << PORTB1);
         sprintf(String, "distance: %d \n", distance);
-        UART_putstring(String);
-        sprintf(String, "ADC: %d \n", ADC);
         UART_putstring(String);
 
         _delay_ms(100);
