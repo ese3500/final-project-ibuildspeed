@@ -1,9 +1,9 @@
 
+#include "adc.h"
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 void
 Initialize_light_PWM() {
     cli();
@@ -37,8 +37,8 @@ Initialize_light_PWM() {
 void
 lights() {
     uint16_t currADC = readADC(0);
-    sprintf(String, "light ADC: %d \n", currADC);
-    UART_putstring(String);
+    //     sprintf(String, "light ADC: %d \n", currADC);
+    //     UART_putstring(String);
     if (currADC < 300 && currADC > 200) {   // low brightness
         OCR2B = OCR2A * 1.0 / 3.0;
     } else if (currADC < 200 && currADC > 100) {   // medium brightness

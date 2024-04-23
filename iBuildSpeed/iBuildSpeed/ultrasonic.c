@@ -3,7 +3,14 @@
 #include <avr/io.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <util/delay.h>
+// #define F_CPU  16000000UL
+
 volatile int duration = 0;
+// determines whether input has been received
+// volatile int duration = 0;
+volatile int start = 0;
+volatile int end = 0;
 
 void
 Initialize_ultrasonic() {
