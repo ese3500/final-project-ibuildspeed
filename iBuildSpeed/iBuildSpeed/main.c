@@ -263,7 +263,6 @@ drive() {
     uint16_t brake_value = readADC(2);
     sprintf(String, "STOPPP: %d \n", brake_value);
     UART_putstring(String);
-
     if (speed == 0) {
         neutral();
     }
@@ -301,7 +300,8 @@ main(void) {
     Initialize_throttle();
     Initialize_PWM();
     Initialize_ADC();
-
+	neutral();
+	_delay_ms(10000);
     while (1) {
         lights();
         drive();
