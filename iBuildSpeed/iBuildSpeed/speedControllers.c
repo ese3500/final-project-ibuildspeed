@@ -9,10 +9,24 @@ Initialize_throttle() {
     // input pins
     DDRC &= ~(1 << DDRC1);
     DDRC &= ~(1 << DDRC2);
+
+	//sets output pin for brake lights and initializes as off
+	DDRB |= (1<<DDB5);
+	PORTB &= ~(1<<PORTB5);
+	
     // 0V (min) to 5V (max)
     // 0 --> 1023
     sei();
 }
+
+void brake_lights() {
+	if(OCR0B < (OCR0A * 9.1 / 100)) {
+		PORTB |= (1<<PORTB5);
+	} else {
+		PORTB &= ~(1<<PORTB5);
+	}
+}
+
 
 double
 set_throttle(uint16_t acc_value) {
