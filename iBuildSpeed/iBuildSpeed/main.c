@@ -17,7 +17,7 @@
 
 #include <util/delay.h>
 
-#include "adc.h"
+#include "i2c.h"
 #include "lights.h"
 #include "speedControllers.h"
 #include "uart.h"
@@ -35,61 +35,35 @@ double duty = 0;
 void
 drive() {
     distance = get_distance();
-	
-	if (distance < 20) {
-		e_brake();
-	} else {
-//     sprintf(String, "distance: %d \n", distance);
-//     UART_putstring(String);
 
-    // read the throttle value
-    uint16_t acc_value = readADC(1);
-    // sprintf(String, "VROOOMM: %d \n", acc_value);
-    // UART_putstring(String);
+    if (distance < 20) {
+        e_brake();
+    } else {
+        //     sprintf(String, "distance: %d \n", distance);
+        //     UART_putstring(String);
 
-    uint16_t brake_value = readADC(2);
-    // sprintf(String, "STOPPP: %d \n", brake_value);
-    // UART_putstring(String);
+        // read the throttle value
+        uint16_t acc_value = readGas();
+        // uint16_t acc_value = readADC(1);
+        sprintf(String, "GAS: %d \n", acc_value);
+        UART_putstring(String);
+        _delay_ms(1000);
+        uint16_t brake_value = readBrake();
+        // uint16_t brake_value = readADC(2);
+        sprintf(String, "BRAKE: %d \n", brake_value);
+        UART_putstring(String);
 
-    if (brake_value == 0 || acc_value == 0) {
-        neutral();
+        if (brake_value < 1800 || acc_value < 1800) {
+            neutral();
+        }
+
+        if (brake_value > 1800) {
+            // both are being pressed --> we want to brake
+            // OCR0B = set_brake(brake_value);
+        } else if (acc_value > 1800) {
+            // OCR0B = set_throttle(acc_value);
+        }
     }
-
-    if (brake_value > 0) {
-        // both are being pressed --> we want to brake
-        OCR0B = set_brake(brake_value);
-    } else if (acc_value > 0) {
-        OCR0B = set_throttle(acc_value);
-    }
-
-    // if (speed == 0) {
-    //     neutral();
-    // }
-
-    // if (speed == 1) {                          // speed is low
-    //     if (distance < 30 && distance > 0) {   // speed is low and distance to object is 30cm
-    //         brake();
-    //     } else {
-    //         lowSpeed();
-    //     }
-    // }
-
-    // if (speed == 2) {   // speed is medium
-    //     if (distance < 40 && distance > 0) {
-    //         brake();
-    //     } else {
-    //         medSpeed();
-    //     }
-    // }
-
-    // if (speed == 3) {   // speed is high
-    //     if (distance < 55 && distance > 0) {
-    //         brake();
-    //     } else {
-    //         highSpeed();
-    //     }
-    // }
-	}
 }
 
 // 9.1 -> neutral
