@@ -141,9 +141,27 @@ What were your results? Namely, what was the final solution/design to your probl
 We were able to create a fully hands-free electric skateboard through the use of pressure pads and an I2C pressure sensor. The skateboard has headlights and brake lights for safety purposes as well as an ultrasonic collision detection system. The final product is not reliably rideable, as there needs to be tuning to the acceleration and braking curves. 
 
 #### 3.1 Software Requirements Specification (SRS) Results
-Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
 
-The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading for the headlights, and writing the read/write for the I2C pressure sensors in order to determine what PWM duty cycle to output for the motor driver (VESC). The ultrasonic collision detection uses input capture to determine how far away an object is from the skateboard and once it reaches a specific threshold, a hard brake is initiated. For the headlights, depending on how well lit the ambient surrounding is, the brightness of the headlights would change. If it was really bright out, it would be off, at dusk it would be somewhat on, and at night it would be as bright as possible. The ambient light is determined using a photoresistor and an ADC value. After the ADC reaches a specific level, the duty cycle of the output PWM signal changes, which thus leads to the brightness of the LED changing. 
+3.1 Overview
+
+The software component of the project is designed to manage the control systems of an electric skateboard, integrating various sensors and actuators to enhance functionality and safety.
+
+3.2 Users
+
+The primary users of this system are individuals using the electric skateboard for commuting and recreational purposes.
+
+3.3 Definitions, Abbreviations
+
+ADC: Analog-to-Digital Converter
+PWM: Pulse Width Modulation
+I2C: Inter-Integrated Circuit
+VESC: Vedder Electronic Speed Controller
+RTOS: Real-Time Operating System
+3.4 Functionality
+
+SRS 01: The ultrasonic collision detection system shall use interrupts and input capture techniques to measure the distance to an object. When the distance is less than the predefined threshold, the system shall initiate a hard brake.
+SRS 02: The system shall control the headlight brightness using a PWM signal that adjusts based on the ambient light levels detected by a photoresistor. The headlights shall be off in bright light, dim at dusk, and fully bright at night.
+SRS 03: The software shall manage I2C communication with differential pressure sensors for controlling the skateboard's speed. The system shall support multi-master configuration to handle sensors with the same address on dual I2C buses.
 
 The I2C utilizes differential pressure sensors that share the same address. To support this, we leverage both I2C buses on the ATMega328PB and alternatively send start conditions followed by two read conditions: one with ACK and the second one with NACK to obtain 2 bytes of pressure sensor readings and then terminate the communication. The pressure sensors ranged in values from 255 to 16500 and we used a linear acceleration and logistic decay braking function in speedcontroller.c file (see pressure_speed branch). These functions map pressure sensor readings to duty cycle values based on the desired sensitivity. 
 
@@ -153,10 +171,24 @@ We fell short of integrating RTOS scheduling due to integration challenges.
 Headlights and VESC were controlled via PWM
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
+4.1 Overview
 
-Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
+This project involves designing and assembling the electronic hardware necessary to control an electric skateboard, focusing on the motor, lighting, and sensor interfaces.
 
-The hardware requirements specified using a linear voltage regulator, a belt drive motor mounting configuration that uses a brushless DC motor, and a current-limiting MOSFET in order to limit the current output of the GPIO and prevent it from damaging the ATMEGA. The linear voltage regulator was used to step down the motor driving PWM signal. This is because the motor driver (VESC) takes in a 3.3V input, but the output of the GPIO pin that controls the speed is a 5V signal. The belt drive motor is used in order to control the speed of the electric skateboard. The speed of the skateboard ranges from 0mph - 30mph. The current limiting MOSFET prevents the headlights/brake lights from drawing too much current from the GPIO pin. The limit of the output current from any GPIO pin is 20mA, but the LEDs from the headlights/brake lights draw 74mA. We also had a 12s3p battery casework that successfully protected ourselves and our environment from any damage. The pressure pedals required tube adaptations in order to fit our pressure sensor modules.  
+4.2 Definitions, Abbreviations
+
+GPIO: General-Purpose Input/Output
+MOSFET: Metal-Oxide-Semiconductor Field-Effect Transistor
+
+4.3 Functionality
+
+HRS 01: The skateboard shall incorporate an ATmega328PB microcontroller to manage all onboard hardware interactions.
+HRS 02: An ultrasonic sensor shall be used for obstacle detection, capable of detecting obstacles up to 200 cm away.
+HRS 03: A 12x6 cm LCD display shall be utilized for the user interface. The display shall connect to the microcontroller via the I2C bus.
+HRS 04: A linear voltage regulator shall step down the PWM signal to 3.3V to match the input requirements of the VESC motor driver.
+HRS 05: A current-limiting MOSFET shall be implemented to restrict the GPIO output current to 20mA to prevent damage to the microcontroller when driving the headlights and brake lights.
+
+The speed of the skateboard ranges from 0mph - 30mph. The current limiting MOSFET prevents the headlights/brake lights from drawing too much current from the GPIO pin. The limit of the output current from any GPIO pin is 20mA, but the LEDs from the headlights/brake lights draw 74mA. We also had a 12s3p battery casework that successfully protected ourselves and our environment from any damage. The pressure pedals required tube adaptations in order to fit our pressure sensor modules.  
 
 We fell short of our expected hardware requirements, mostly because integrating all moving parts resulted in errors. We were also unable to achieve dual-motor control as a result of frying the dual vesc. We also fell short of obtaining practical speed measurements and thus can only report theoretical. 
 
