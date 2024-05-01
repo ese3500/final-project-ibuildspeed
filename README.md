@@ -136,8 +136,8 @@ If you’ve never made a Github pages website before, you can follow this webpag
 
 ### 2. Images
 
-[Bottom of skateboard](https://drive.google.com/file/d/1etYbrvFhgBL8sjQUsOP_M8TbVpuxpEHl/view?usp=sharing)
-[Top of skateboard](https://drive.google.com/file/d/1r9hFO10wdhOQfwpBqguP-r_c5ASnazm1/view?usp=sharing)
+![IMG_0527](https://github.com/ese3500/final-project-ibuildspeed/assets/101944472/5fdfe07c-c08c-41f1-8229-fbc568120bf7)
+![IMG_0530](https://github.com/ese3500/final-project-ibuildspeed/assets/101944472/2ef529f8-9439-42cb-85c5-a0b58d32ce67)
 
 ### 3. Results
 What were your results? Namely, what was the final solution/design to your problem?
@@ -147,8 +147,7 @@ We were able to create a fully hands-free electric skateboard through the use of
 #### 3.1 Software Requirements Specification (SRS) Results
 Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
 
-The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading, and writing the read/write for the I2C pressure sensors.  
-IR modulation and ADC was removed and the I2C pressure sensors were used instead. ADC was still used with the photocell to control headlights.
+The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading for the headlights, and writing the read/write for the I2C pressure sensors in order to determine what PWM duty cycle to output for the motor driver (VESC). The ultrasonic collision detection uses input capture to determine how far away an object is from the skateboard and once it reaches a specific threshold, a hard brake is initiated. For the headlights, depending on how well lit the ambient surrounding is, the brightness of the headlights would change. If it was really bright out, it would be off, at dusk it would be somewhat on, and at night it would be as bright as possible. The ambient light is determined using a photoresistor and an ADC value. After the ADC reaches a specific level, the duty cycle of the output PWM signal changes, which thus leads to the brightness of the LED changing. (talk about how I2C was written)
 
 Headlights and VESC were controlled via PWM
 
