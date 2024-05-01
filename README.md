@@ -4,7 +4,7 @@
     * Team Name: iBuildSpeed
     * Team Members: Ahmed Abdellah, Ayman Tewfik, Andrew Katz
     * Github Repository URL: https://github.com/ese3500/final-project-ibuildspeed
-    * Github Pages Website URL: [for final submission]
+    * Github Pages Website URL: https://ese3500.github.io/final-project-ibuildspeed/
     * Description of hardware: (embedded hardware, laptop, etc) embedded hardware
 
 ## Final Project Proposal
@@ -125,9 +125,6 @@ Add your slides to the Final Project Proposal slide deck in the Google Drive.5
 
 ## Final Project Report
 
-Don't forget to make the GitHub pages public website!
-If you’ve never made a Github pages website before, you can follow this webpage (though, substitute your final project repository for the Github username one in the quickstart guide):  <https://docs.github.com/en/pages/quickstart>
-
 ### 1. Video
 
 [Demoing electric skateboard using I2C pressure sensors](https://drive.google.com/file/d/1Hnqc6SHLUXZd8Aw96VgkGABT7wk5KBnw/view?usp=sharing)<br>
@@ -135,6 +132,7 @@ If you’ve never made a Github pages website before, you can follow this webpag
 [Demoing collision detection](https://drive.google.com/file/d/1hczSDGDwY4ylqr7qDrfUw2X2F34fmRHp/view?usp=sharing)
 
 ### 2. Images
+![Original Vison](https://github.com/ese3500/final-project-ibuildspeed/assets/68669398/699e8d12-8ab5-4d23-8291-020dab630f18)
 ![Bottom of skateboard](https://github.com/ese3500/final-project-ibuildspeed/assets/68669398/472f3fc9-06fc-4a26-bac3-7e4f0c4068cf)
 ![Top of skateboard](https://github.com/ese3500/final-project-ibuildspeed/assets/68669398/b0b9893d-093c-4a9a-874c-450f50e6fd87)
 ### 3. Results
