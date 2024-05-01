@@ -147,7 +147,7 @@ We were able to create a fully hands-free electric skateboard through the use of
 #### 3.1 Software Requirements Specification (SRS) Results
 Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
 
-The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading, and writing the read/write for the I2C pressure sensors.
+The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading, and writing the read/write for the I2C pressure sensors. 
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
@@ -157,6 +157,8 @@ The hardware requirements that we had include using a linear voltage regulator, 
 ### 4. Conclusion
 
 Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
+
+There were many things that we learned during this project. There are many issues when trying to integrate everything together. Even though everything works on its own, when everything is put together it might not completely work. We also learned how to practically implement I2C for the pressure sensor. There were changes that had to have been made to the initial design. Originally the plan was to use an optics to determine the speed of the motor. This was done by having a small enclosure and depending on how much the enclosure is stepped on, the closer the IR lights get which would then output a higher voltage. This did not seem to be practical and so we switched to a air pedal and pressure sensor to determine what the speed of the skateboard should be. There were many obstacles that we encountered. Some of these obstacles include the integration of I2C sensors breaking the whole system as well as the unpredictable behavior of the ultrasonic collision detection. The next step of this project would be to use a different form of collision detection. Either use the Time of Flight sensor for this since it has a larger range and this would allow us to have a braking curve so that it is not a hard stop. (add another next step)
 
 ## References
 
