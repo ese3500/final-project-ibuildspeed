@@ -2,7 +2,7 @@
 # final-project-skeleton
 
     * Team Name: iBuildSpeed
-    * Team Members: Ahmed Abdellah, Ayman Tewfik
+    * Team Members: Ahmed Abdellah, Ayman Tewfik, Andrew Katz
     * Github Repository URL: https://github.com/ese3500/final-project-ibuildspeed
     * Github Pages Website URL: [for final submission]
     * Description of hardware: (embedded hardware, laptop, etc) embedded hardware
@@ -147,7 +147,10 @@ We were able to create a fully hands-free electric skateboard through the use of
 #### 3.1 Software Requirements Specification (SRS) Results
 Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
 
-The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading, and writing the read/write for the I2C pressure sensors. 
+The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading, and writing the read/write for the I2C pressure sensors.  
+IR modulation and ADC was removed and the I2C pressure sensors were used instead. ADC was still used with the photocell to control headlights.
+
+Headlights and VESC were controlled via PWM
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
@@ -158,15 +161,17 @@ The hardware requirements that we had include using a linear voltage regulator, 
 
 Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
 
-There were many things that we learned during this project. There are many issues when trying to integrate everything together. Even though everything works on its own, when everything is put together it might not completely work. We also learned how to practically implement I2C for the pressure sensor. There were changes that had to have been made to the initial design. Originally the plan was to use an optics to determine the speed of the motor. This was done by having a small enclosure and depending on how much the enclosure is stepped on, the closer the IR lights get which would then output a higher voltage. This did not seem to be practical and so we switched to a air pedal and pressure sensor to determine what the speed of the skateboard should be. There were many obstacles that we encountered. Some of these obstacles include the integration of I2C sensors breaking the whole system as well as the unpredictable behavior of the ultrasonic collision detection. The next step of this project would be to use a different form of collision detection. Either use the Time of Flight sensor for this since it has a larger range and this would allow us to have a braking curve so that it is not a hard stop. (add another next step)
+There were many things that we learned during this project. There are many issues when trying to integrate everything together. Even though everything works on its own, when everything is put together it might not completely work. We also learned how to practically implement I2C for the pressure sensor. There were changes that had to have been made to the initial design. Originally the plan was to use an optics to determine the speed of the motor. This was done by having a small enclosure and depending on how much the enclosure is stepped on, the closer the IR lights get which would then output a higher voltage. This did not seem to be practical and so we switched to a air pedal and pressure sensor to determine what the speed of the skateboard should be. There were many obstacles that we encountered. Some of these obstacles include the integration of I2C sensors breaking the whole system as well as the unpredictable behavior of the ultrasonic collision detection. The next step of this project would be to use a different form of collision detection. Either use the Time of Flight sensor for this since it has a larger range and this would allow us to have a braking curve so that it is not a hard stop, or use LIDAR-LITE (V3 or V4) depending on testing results.
+
+Casework will need multiple additional rounds of design, due to the amount of flex in the board, the lack of water proofing, and the weird profile of the board. This would also allow better cable management, wiring, and a more robust way of connecting the electronics.
 
 ## References
 
 Fill in your references here as you work on your proposal and final submission. Describe any libraries used here.
 
-## Github Repo Submission Resources
+<!--## Github Repo Submission Resources
 
-You can remove this section if you don't need these references.
+You can remove this section if you don't need these references. 
 
 * [ESE5160 Example Repo Submission](https://github.com/ese5160/example-repository-submission)
 * [Markdown Guide: Basic Syntax](https://www.markdownguide.org/basic-syntax/)
@@ -175,3 +180,4 @@ You can remove this section if you don't need these references.
 * [VS Code](https://code.visualstudio.com/) is heavily recommended to develop code and handle Git commits
   * Code formatting and extension recommendation files come with this repository.
   * Ctrl+Shift+V will render the README.md (maybe not the images though)
+-->
