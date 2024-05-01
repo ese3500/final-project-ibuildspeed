@@ -130,24 +130,29 @@ If you’ve never made a Github pages website before, you can follow this webpag
 
 ### 1. Video
 
-[Insert final project video here]
+[Demoing electric skateboard using I2C pressure sensors](https://drive.google.com/file/d/1Hnqc6SHLUXZd8Aw96VgkGABT7wk5KBnw/view?usp=sharing)
+[Showing how skateboard worked with lights/pressure sensor](https://drive.google.com/file/d/1IuB5yCILuj6FcOUCSRd2ZlDpXLcBj3dS/view?usp=sharing)
+[Demoing collision detection](https://drive.google.com/file/d/1hczSDGDwY4ylqr7qDrfUw2X2F34fmRHp/view?usp=sharing)
 
 ### 2. Images
 
 [Insert final project images here]
 
 ### 3. Results
-
 What were your results? Namely, what was the final solution/design to your problem?
 
-#### 3.1 Software Requirements Specification (SRS) Results
+We were able to create a fully hands-free electric skateboard through the use of pressure pads and an I2C pressure sensor. The skateboard has headlights and brake lights for safety purposes as well as an ultrasonic collision detection system.
 
+#### 3.1 Software Requirements Specification (SRS) Results
 Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
+
+The software requirements we had included using interrupts for the ultrasonic collision detection system, creating PWM signals based on an ADC reading, and writing the read/write for the I2C pressure sensors.
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
 Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
 
+The hardware requirements that we had include using a linear voltage regulator, a belt drive motor that uses a brushless DC motor, and a current-limiting MOSFET in order to limit the current output of the GPIO and prevent it from damaging the ATMEGA. The linear voltage regulator was used to step down the motor driving PWM signal. This is because the motor driver (VESC) takes in a 3.3V input, but the output of the GPIO pin that controls the speed is a 5V signal. The belt drive motor is used in order to control the speed of the electric skateboard. The speed of the skateboard ranges from 0mph - 30mph. The current limiting MOSFET prevents the headlights/brake lights from drawing too much current from the GPIO pin. The limit of the output current from any GPIO pin is 20mA, but the LEDs from the headlights/brake lights draw 74mA.
 ### 4. Conclusion
 
 Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
