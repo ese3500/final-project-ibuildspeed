@@ -152,11 +152,11 @@ The primary users of this system are individuals using the electric skateboard f
 
 3.3 Definitions, Abbreviations
 
-ADC: Analog-to-Digital Converter
-PWM: Pulse Width Modulation
-I2C: Inter-Integrated Circuit
-VESC: Vedder Electronic Speed Controller
-RTOS: Real-Time Operating System
+ADC: Analog-to-Digital Converter<br>
+PWM: Pulse Width Modulation<br>
+I2C: Inter-Integrated Circuit<br>
+VESC: Vedder Electronic Speed Controller<br>
+RTOS: Real-Time Operating System<br>
 3.4 Functionality
 
 SRS 01: The ultrasonic collision detection system shall use interrupts and input capture techniques to measure the distance to an object. When the distance is less than the predefined threshold, the system shall initiate a hard brake.
