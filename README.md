@@ -130,8 +130,8 @@ If you’ve never made a Github pages website before, you can follow this webpag
 
 ### 1. Video
 
-[Demoing electric skateboard using I2C pressure sensors](https://drive.google.com/file/d/1Hnqc6SHLUXZd8Aw96VgkGABT7wk5KBnw/view?usp=sharing)
-[Showing how skateboard worked with lights/pressure sensor](https://drive.google.com/file/d/1IuB5yCILuj6FcOUCSRd2ZlDpXLcBj3dS/view?usp=sharing)
+[Demoing electric skateboard using I2C pressure sensors](https://drive.google.com/file/d/1Hnqc6SHLUXZd8Aw96VgkGABT7wk5KBnw/view?usp=sharing)<br>
+[Showing how skateboard worked with lights/pressure sensor](https://drive.google.com/file/d/1IuB5yCILuj6FcOUCSRd2ZlDpXLcBj3dS/view?usp=sharing) <br>
 [Demoing collision detection](https://drive.google.com/file/d/1hczSDGDwY4ylqr7qDrfUw2X2F34fmRHp/view?usp=sharing)
 
 ### 2. Images
