@@ -136,8 +136,8 @@ If you’ve never made a Github pages website before, you can follow this webpag
 
 ### 2. Images
 
-[Bottom of skateboard](https://drive.google.com/file/d/1etYbrvFhgBL8sjQUsOP_M8TbVpuxpEHl/view?usp=sharing)
-[Top of skateboard](https://drive.google.com/file/d/1r9hFO10wdhOQfwpBqguP-r_c5ASnazm1/view?usp=sharing)
+![Bottom of skateboard](https://drive.google.com/file/d/1etYbrvFhgBL8sjQUsOP_M8TbVpuxpEHl/view?usp=sharing)
+![Top of skateboard](https://drive.google.com/file/d/1r9hFO10wdhOQfwpBqguP-r_c5ASnazm1/view?usp=sharing)
 
 ### 3. Results
 What were your results? Namely, what was the final solution/design to your problem?
