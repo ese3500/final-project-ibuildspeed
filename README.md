@@ -136,8 +136,7 @@ If you’ve never made a Github pages website before, you can follow this webpag
 
 ### 2. Images
 ![Bottom of skateboard](https://github.com/ese3500/final-project-ibuildspeed/assets/68669398/472f3fc9-06fc-4a26-bac3-7e4f0c4068cf)
-[Top of skateboard](https://drive.google.com/file/d/1r9hFO10wdhOQfwpBqguP-r_c5ASnazm1/view?usp=sharing)
-
+![Top of skateboard](https://github.com/ese3500/final-project-ibuildspeed/assets/68669398/b0b9893d-093c-4a9a-874c-450f50e6fd87)
 ### 3. Results
 What were your results? Namely, what was the final solution/design to your problem?
 
